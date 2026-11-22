@@ -7,7 +7,9 @@
 
 > **An AI-Powered Debate Platform that helps users sharpen critical thinking, public speaking, and argumentation skills through real-time AI debates.**
 
-🌐 **Live Demo:** https://godson-82.github.io/Debate-Arena/
+🌐 **Live Demo:** https://suryandugy-glitch.github.io/Debate-Arena/
+
+Bring your own Groq API key for AI replies. The page keeps it in memory until you reload or close the tab and sends it to Groq with requests.
 
 ---
 
@@ -121,7 +123,7 @@ Debate-Arena/
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/Godson-82/Debate-Arena.git
+git clone https://github.com/suryandugy-glitch/Debate-Arena.git
 ```
 
 ### Run Locally

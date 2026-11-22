@@ -162,7 +162,14 @@ function speakText(text) {
   }, 100);
 }
 
+let groqApiKey = "";
+
 async function callAI() {
+  if (!groqApiKey) {
+    groqApiKey = window.prompt("Enter your Groq API key for this session.")?.trim() ?? "";
+  }
+  if (!groqApiKey) return "A Groq API key is required for an AI reply.";
+
   try {
 
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -170,7 +177,7 @@ async function callAI() {
 
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer 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'
+        'Authorization': 'Bearer ' + groqApiKey
       },
 
       body: JSON.stringify({
@@ -190,9 +197,13 @@ async function callAI() {
       })
     });
 
-    const data = await res.json();
+    if (res.status === 401 || res.status === 403) {
+      groqApiKey = "";
+      return "Groq rejected the API key. Try again with a valid key.";
+    }
+    if (!res.ok) return "Groq could not complete this request. Try again shortly.";
 
-    console.log(data);
+    const data = await res.json();
 
     return data.choices?.[0]?.message?.content || 'No response from AI';
 
