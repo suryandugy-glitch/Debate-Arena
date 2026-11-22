@@ -1,9 +1,16 @@
+<img src="cellar-logo.png" width="64" height="64" alt="Debate Arena logo">
+
+# Debate Arena by Cellar
+
+[Launch Debate Arena](https://suryandugy-glitch.github.io/Debate-Arena/) · [Report an issue](https://github.com/suryandugy-glitch/Debate-Arena/issues)
+
+Choose a topic and a side. Enter your Groq key when prompted to receive an AI response. The key stays in memory for the session.
+
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![Version](https://img.shields.io/badge/Version-1.0-blue)
 ![AI Powered](https://img.shields.io/badge/AI-Powered-purple)
 ![Hackathon Project](https://img.shields.io/badge/Hackathon-Project-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
-# 🎤 Debate Arena
 
 > **An AI-Powered Debate Platform that helps users sharpen critical thinking, public speaking, and argumentation skills through real-time AI debates.**
 
