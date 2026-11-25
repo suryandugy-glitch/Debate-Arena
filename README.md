@@ -4,7 +4,7 @@
 
 [Launch Debate Arena](https://suryandugy-glitch.github.io/Debate-Arena/) · [Report an issue](https://github.com/suryandugy-glitch/Debate-Arena/issues)
 
-Choose a topic and a side. Enter your Groq key when prompted to receive an AI response. The key stays in memory for the session.
+Choose a topic and a side. On a configured Vercel deployment, replies use a server-side Groq key. On static GitHub Pages, the app offers an optional bring-your-own-key fallback.
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![Version](https://img.shields.io/badge/Version-1.0-blue)
@@ -16,7 +16,22 @@ Choose a topic and a side. Enter your Groq key when prompted to receive an AI re
 
 🌐 **Live Demo:** https://suryandugy-glitch.github.io/Debate-Arena/
 
-Bring your own Groq API key for AI replies. The page keeps it in memory until you reload or close the tab and sends it to Groq with requests.
+The secure backend sends requests to Groq without exposing the server key to visitors. GitHub Pages has no server functions: its bring-your-own-key mode sends requests directly from your browser to Groq, so only use a key you are comfortable using in this way.
+
+---
+
+## Server-side backend (recommended)
+
+This repository includes a bounded serverless API at `api/debate.js`.
+
+1. Import the repository into Vercel.
+2. Set `GROQ_API_KEY` in the Vercel project's environment variables. Never put this key into HTML or public JavaScript.
+3. Redeploy and open the Vercel URL. The existing frontend calls same-origin `POST /api/debate` first.
+4. Run the backend unit tests with `node --test tests/*.test.cjs`.
+
+The backend validates topic, stance and message history, caps output, and times out slow upstream calls. It is an **early beta**: add authentication, rate limiting, observability and provider-cost controls before allowing unrestricted public use.
+
+The GitHub Pages edition remains a static, browser-key version. It cannot use server-side secrets or promise user accounts and durable debate history.
 
 ---
 

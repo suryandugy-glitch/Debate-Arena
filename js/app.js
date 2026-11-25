@@ -11,7 +11,7 @@ function stanceLabels(s) {
 function intensityInstructions(i) {
   if (i === 'polite')   return 'Be respectful and measured. Acknowledge valid points before countering. Maintain a civil, collegial tone.';
   if (i === 'brutal')   return 'Be fierce, blunt, and relentless. Demolish weak arguments without mercy. Be unapologetically provocative.';
-  if (i === 'academic') return 'Use formal academic register. Cite plausible studies and statistics. Structure arguments with academic rigour.';
+  if (i === 'academic') return 'Use formal academic register. Do not invent studies, statistics or citations. Structure arguments with academic rigour.';
   return 'Be direct and punchy. Give sharp, confident rebuttals. Forceful but not aggressive.';
 }
 
@@ -165,10 +165,26 @@ function speakText(text) {
 let groqApiKey = "";
 
 async function callAI() {
-  if (!groqApiKey) {
-    groqApiKey = window.prompt("Enter your Groq API key for this session.")?.trim() ?? "";
+  // Prefer a same-origin server endpoint: no provider key reaches the browser.
+  try {
+    const backend = await fetch('/api/debate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({topic, stance, intensity: ['polite','brutal','academic'].includes(intensity) ? intensity : 'balanced', history: history.slice(-20)})
+    });
+    if (backend.ok) {
+      const data = await backend.json();
+      if (data.reply) return data.reply;
+    } else if (backend.status !== 404 && backend.status !== 503) {
+      return 'The debate server is temporarily unavailable. Try again shortly.';
+    }
+  } catch {
+    // Static GitHub Pages deployments have no backend. BYOK remains available.
   }
-  if (!groqApiKey) return "A Groq API key is required for an AI reply.";
+  if (!groqApiKey) {
+    groqApiKey = window.prompt('Static demo: enter your Groq API key to send requests directly from this browser to Groq. For a server-side key, use the Vercel deployment instead.')?.trim() ?? '';
+  }
+  if (!groqApiKey) return 'A Groq API key is required on static hosting. Deploy the backend for key-free chat.';
 
   try {
 
